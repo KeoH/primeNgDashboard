@@ -1,22 +1,29 @@
 
 import { PostsService } from '../services';
 
+
 export class Post {
 
     id?: string;
     title: string;
+    private _postsService: PostsService
 
-
-    constructor(private _postsService: PostsService) {
+    constructor(title: string, id?: string) {
         console.info("Clase Post Creado");
+        this.title = title;
+        if(id)
+            this.id = id;
+        this._postsService = new PostsService()
     }
 
     public is_valid(): boolean {
-        return this.id != null && this.title != null;
+        return this.title != null;
     }
 
     public save(): any {
-        return this.is_valid() || this._postsService.save(this.serialize());
+        if (this.is_valid())
+            return this._postsService.save(this);
+        return null;
     }
 
     private serialize(): any {

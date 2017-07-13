@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 
+import { Post } from '../../models';
+import { PostsService } from '../../services/posts.service';
+
+
 @Component({
   selector: 'app-indexview',
   templateUrl: './indexview.component.html',
@@ -7,6 +11,16 @@ import { Component } from '@angular/core';
 })
 export class IndexviewComponent {
 
-  constructor() { }
+  posts: Post[];
+
+  constructor() {
+    new PostsService().fetchAll()
+      .then((posts)=>{
+        this.posts = posts;
+        console.log(this.posts);
+      }, (error)=>console.warn(error));
+
+    
+  }
 
 }
